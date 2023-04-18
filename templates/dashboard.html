@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="static/css/dash.css">
+        <title>My_To_Do</title>
+    </head>
+    <body>
+    <section class="main">
+        <div class="add-task">
+            <nav>
+                {% if current_user.is_anonymous %}
+                    <a href="{{ url_for('login') }}">Login</a>
+                {% else %}
+                    <p>Welcome {{ current_user.username }}</p>
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                {% endif %}
+            </nav>
+            <form action="" method="POST" class="add-form">
+                <input type="text" name="title" placeholder="Task Title...">
+                <input type="text" name="description" placeholder="Task Description...">
+                <button type="submit"><img src="static/img/add.svg" alt="delete" style="width: 24px;"></button>
+            </form>
+            <section class="tasks">
+                <div class="todo">
+                    {% for task in task_list %}
+                        <div class="single-task">
+                            <h3>{{ task.title }}</h3>
+                            <h4>{{ task.description }}</h4>
+                            <h5>{{ task.date }}</h5>
+                            <div class="actions">
+                                <button class="open-window-btn"><img src="static/img/edit.svg" alt="delete"
+                                                                     style="width: 24px;"></button>
+
+                                <div class="floating-window">
+                                    <form action="/edit/{{ task.id }}" method="post">
+                                        <input type="text" class="input1" name="update-title" placeholder="New Title">
+
+                                        <input type="text" class="input2" name="update-desc" placeholder="New Description">
+
+                                        <button type="submit">Update</button>
+                                    </form>
+                                </div>
+                                <a href="/delete/{{ task.id }}" class="delete-action"><img src="static/img/delete.svg"
+                                                                                           alt="delete"
+                                                                                           style="width: 24px;"></a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </section>
+        </div>
+    </section>
+    <script>
+        const openWindowBtns = document.querySelectorAll('.open-window-btn');
+                openWindowBtns.forEach((btn) => {
+                    btn.addEventListener('click', (event) => {
+                        const floatingWindow = event.currentTarget.nextElementSibling;
+                        floatingWindow.style.display = 'block';
+                    });
+                });
+        const floatingWindows = document.querySelectorAll('.floating-window');
+    </script>
+    </body>
+</html>
