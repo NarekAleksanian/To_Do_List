@@ -10,9 +10,9 @@
 # After that run in terminal
   - export FLASK_APP=app.py
   - flask shell
-  >>> from app import db, User, Task
-  >>> db.create_all()
-  >>> exit()
+  - >> from app import db, User, Task
+  - >> db.create_all()
+  - >> exit()
  
 # And run flask in terminal
   - flask run
